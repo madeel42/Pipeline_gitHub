@@ -16,7 +16,6 @@ export default class RegisterComponent extends React.Component {
     }
 
 
-
     handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
@@ -26,24 +25,42 @@ export default class RegisterComponent extends React.Component {
 
 
     registerUser = (e) => {
-        const axios = require('axios');
+        // const axios = require('axios');
             const {username, email, password} = this.state;
            // alert(username+" "+email+" "+password);
 
-            // fetch('http://localhost:5000/api/user/register', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         name: username,
-            //         email: email,
-            //         password: password,
-            //         password2: password,
-            //     }),
+           e.preventDefault();
+          
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    // 'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: username,
+                    email: email,
+                    password: password,
+                    // password2: password,
+                }),
+            }).then(resp => {
+              return resp.json();
+            })
+            .then(resp => {
+              if (resp.success) {
+                alert('user created');
+              } else if (!resp.success) {
+                alert('user not found');
+              }
+            });
+        };
+            // .then(responseJSon => responseJSon.json()).then((response)=>{
+            //   if (response.success) {
+            //     alert('user created');
+            //   } else if (!response.success) {
+            //     alert(response.msg);
+            //   }
             // })
-            // .then(responseJSon => responseJSon.json())
             // .then(response => alert(response))
             // .catch(err => {
             //     console.error(err);
@@ -51,32 +68,31 @@ export default class RegisterComponent extends React.Component {
 
        
 
-            axios.post('http://localhost:5000/api/user/register', {
-                name: username,
-                email: email,
-                password: password,
-                password2: password
-              })
-              .then(function (response) {
-                alert(response);
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
+            // axios.post('http://localhost:5000/api/user/register', {
+            //     name: username,
+            //     email: email,
+            //     password: password,
+            //     password2: password
+            //   })
+            //   .then(function (response) {
+            //     alert(response);
+            //   })
+            //   .catch(function (error) {
+            //     console.log(error);
+            //   });
 
 
 
 
 
 
-                e.preventDefault();
-    }
 
 
 
 
 
     render(){
+      console.log(this.state)
         return(
             <div>
                 <Header />
